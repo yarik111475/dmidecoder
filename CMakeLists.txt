@@ -7,6 +7,17 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(UNIX AND NOT APPLE)
+    set(LINUX TRUE)
+endif()
+
+if(LINUX)
+    set(LINUX_LINK_STATIC
+        -static-libgcc
+        -static-libstdc++
+        )
+endif()
+
 set(PROJECT_SOURCES
     main.cpp
     dmi/Entry.h
@@ -23,7 +34,7 @@ add_executable(${TARGET_NAME}
 
 target_link_libraries(${TARGET_NAME} PRIVATE
     Qt5::Core
-    #Qt5::Network
+    ${LINUX_LINK_STATIC}
 )
 
 install(TARGETS ${TARGET_NAME}
